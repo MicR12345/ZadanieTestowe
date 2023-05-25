@@ -20,6 +20,8 @@ public class Map : MonoBehaviour
         
         GenerateMapTiles(xSize, ySize);
         meshFilter.mesh = GenerateMapMesh(xSize, ySize);
+        
+        Camera.main.orthographicSize = (xSize * 0.5f) + 1;
     }
 
     ///<summary>Funkcja generujaca pola na ksztalt prostokata o wymiarach <c>xSize</c> na <c>ySize</c> </summary>
@@ -30,7 +32,7 @@ public class Map : MonoBehaviour
         {
             for (int j = 0; j < ySize; j++)
             {
-                tiles[i, j] = new Tile(new Vector3(i, j) - new Vector3(xSize/2,ySize/2));
+                tiles[i, j] = new Tile(new Vector3(i, j) - new Vector3(xSize * 0.5f,ySize * 0.5f));
             }
         }
     }
