@@ -42,7 +42,7 @@ public class AgentManager : MonoBehaviour
     List<Agent> agentsUnderManagement = new List<Agent>();
 
     const int maxSpawnIterations = 30;
-    // Start is called before the first frame update
+
     void Start()
     {
         for (int i = 0; i < startAgentCount; i++)

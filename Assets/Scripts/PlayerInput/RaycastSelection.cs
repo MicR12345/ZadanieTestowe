@@ -5,12 +5,11 @@ using TMPro;
 
 public class RaycastSelection : MonoBehaviour
 {
+    [Header("Referencje do wyswietlaczy tekstu")]
     [SerializeField]
     TMPro.TextMeshProUGUI NameTextComp;
     [SerializeField]
     TMPro.TextMeshProUGUI HealthTextComp;
-    [Header("Pokazywany agent")]
-    [SerializeReference]
     Displayable thing = null;
     private void Update()
     {
@@ -27,15 +26,17 @@ public class RaycastSelection : MonoBehaviour
                 thing = null;
             }
         }
-        if (thing.ToString()!="null")
+        if (thing !=null && thing.ToString()!="null")
         {
             NameTextComp.text = "Nazwa: " + thing.GetName();
             HealthTextComp.text = "HP: " + thing.GetHealth();
+            transform.position = thing.GetPosition();
         }
         else
         {
             NameTextComp.text = "Nazwa: --";
             HealthTextComp.text = "HP: --";
+            transform.position = new Vector3(1000, 1000, 1000);
         }
     }
 }

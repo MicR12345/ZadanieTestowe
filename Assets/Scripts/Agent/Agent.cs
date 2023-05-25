@@ -87,6 +87,10 @@ public class Agent : MonoBehaviour,Damageable,Displayable
     {
         return gameObject.name;
     }
+    public Vector3 GetPosition()
+    {
+        return Position;
+    }
     /// <summary>
     /// Funkcja tworzy nowego agenta z potrzebnymi komponentami i go zwraca
     /// </summary>

@@ -6,4 +6,5 @@ public interface Displayable
 {
     int GetHealth();
     string GetName();
+    Vector3 GetPosition();
 }
