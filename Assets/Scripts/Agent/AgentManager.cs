@@ -56,7 +56,7 @@ public class AgentManager : MonoBehaviour
     {
         if (spawnTimer <= 0)
         {
-            if(agentsUnderManagement.Count <= maxAgentCount)
+            if(agentsUnderManagement.Count < maxAgentCount)
             {
                 CreateAgent();
             }
@@ -70,8 +70,7 @@ public class AgentManager : MonoBehaviour
     }
     void CreateAgent()
     {
-        Agent newAgent = Agent.CreateAgent(this,agentSprite);
-        newAgent.SetAgentProperies(agentHealth,agentVelocity);
+        Agent newAgent = Agent.CreateAgent(this,Map,agentSprite);
         int x = Random.Range(0, Mathf.FloorToInt(Map.Size.x));
         int y = Random.Range(0, Mathf.FloorToInt(Map.Size.y));
         int i = 0;
@@ -90,8 +89,15 @@ public class AgentManager : MonoBehaviour
         {
             newAgent.transform.parent = transform;
             newAgent.transform.position = Map.GetWorldPositionFromMapCoordinates(x,y);
+            newAgent.SetAgentProperies(agentHealth, agentVelocity);
+            newAgent.AssignAgentBehaviour(PickAgentBehaviour());
             agentsUnderManagement.Add(newAgent);
+            map.RegisterAgentOnMap(newAgent);
             agentCount++;
         }
+    }
+    AgentBehaviour PickAgentBehaviour()
+    {
+        return new AgentBehaviours.RandomBehaviour();
     }
 }
