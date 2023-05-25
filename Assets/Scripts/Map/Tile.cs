@@ -31,10 +31,10 @@ public class Tile
         };
         Vector3[] normals =
         {
-            Vector3.up,
-            Vector3.up,
-            Vector3.up,
-            Vector3.up
+            Vector3.back,
+            Vector3.back,
+            Vector3.back,
+            Vector3.back
     };
         return (vertices, triangles, uvs, normals);
     }

@@ -5,8 +5,37 @@ using UnityEngine;
 public class Map : MonoBehaviour
 {
     private Tile[,] tiles;
+    [Header("Rozmiar planszy")]
+    [SerializeField]
+    int xSize;
+    [SerializeField]
+    int ySize;
+    private void Start()
+    {
+        GenerateMap();
+    }
+    private void GenerateMap()
+    {
+        MeshFilter meshFilter = GetComponent<MeshFilter>();
+        
+        GenerateMapTiles(xSize, ySize);
+        meshFilter.mesh = GenerateMapMesh(xSize, ySize);
+    }
+
+    ///<summary>Funkcja generujaca pola na ksztalt prostokata o wymiarach <c>xSize</c> na <c>ySize</c> </summary>
+    private void GenerateMapTiles(int xSize, int ySize)
+    {
+        tiles = new Tile[xSize, ySize];
+        for (int i = 0; i < xSize; i++)
+        {
+            for (int j = 0; j < ySize; j++)
+            {
+                tiles[i, j] = new Tile(new Vector3(i, j) - new Vector3(xSize/2,ySize/2));
+            }
+        }
+    }
     ///<summary>Funkcja generujaca mesh na podstawie tablicy pol</summary>
-    public Mesh GenerateMapMesh(int xSize, int ySize,Vector3 position)
+    private Mesh GenerateMapMesh(int xSize, int ySize)
     {
         Mesh mesh = new Mesh();
         List<Vector3> verts = new List<Vector3>();
