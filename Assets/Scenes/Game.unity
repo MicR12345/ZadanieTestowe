@@ -459,5 +459,5 @@ MonoBehaviour:
   minTimeToSpawn: 2
   maxTimeToSpawn: 6
   spawnTimer: 0
-  agentVelocity: 10
+  agentVelocity: 20
   agentHealth: 3

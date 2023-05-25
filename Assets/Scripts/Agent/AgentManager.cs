@@ -68,6 +68,13 @@ public class AgentManager : MonoBehaviour
             spawnTimer = spawnTimer - Time.deltaTime;
         }
     }
+    public void DestroyAgent(Agent agent)
+    {
+        map.UnregisterAgentFromMap(agent);
+        agentsUnderManagement.Remove(agent);
+        GameObject.Destroy(agent.gameObject);
+        agentCount = agentsUnderManagement.Count;
+    }
     void CreateAgent()
     {
         Agent newAgent = Agent.CreateAgent(this,Map,agentSprite);
