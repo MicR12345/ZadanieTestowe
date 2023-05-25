@@ -21,6 +21,7 @@ public class AgentManager : MonoBehaviour
     int maxAgentCount = 30;
     [SerializeField]
     [Tooltip("Obecna ilosc agengow")]
+    //Zrobilem ta zmienna tylko po to by byla widoczna w inspektorze
     int agentCount = 0;
     [SerializeField]
     [Range(3,5)]
@@ -30,11 +31,13 @@ public class AgentManager : MonoBehaviour
     float minTimeToSpawn = 2f;
     [SerializeField]
     float maxTimeToSpawn = 6f;
+    [SerializeField]
+    float spawnTimer = 0;
     [Header("Wlasciwosci agentow")]
     [SerializeField]
-    float velocity = 3;
+    float agentVelocity = 3;
     [SerializeField]
-    float health = 3;
+    int agentHealth = 3;
 
     List<Agent> agentsUnderManagement = new List<Agent>();
 
@@ -46,17 +49,29 @@ public class AgentManager : MonoBehaviour
         {
             CreateAgent();
         }
+        spawnTimer = Random.Range(minTimeToSpawn, maxTimeToSpawn);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (spawnTimer <= 0)
+        {
+            if(agentsUnderManagement.Count <= maxAgentCount)
+            {
+                CreateAgent();
+            }
+            //dodaje czas zamiast ustawiac by doliczyc czas do obecnej klatki
+            spawnTimer = spawnTimer + Random.Range(minTimeToSpawn, maxTimeToSpawn);
+        }
+        else
+        {
+            spawnTimer = spawnTimer - Time.deltaTime;
+        }
     }
     void CreateAgent()
     {
         Agent newAgent = Agent.CreateAgent(this,agentSprite);
-        newAgent.transform.parent = transform;
+        newAgent.SetAgentProperies(agentHealth,agentVelocity);
         int x = Random.Range(0, Mathf.FloorToInt(Map.Size.x));
         int y = Random.Range(0, Mathf.FloorToInt(Map.Size.y));
         int i = 0;
@@ -73,6 +88,7 @@ public class AgentManager : MonoBehaviour
         }
         else
         {
+            newAgent.transform.parent = transform;
             newAgent.transform.position = Map.GetWorldPositionFromMapCoordinates(x,y);
             agentsUnderManagement.Add(newAgent);
             agentCount++;

@@ -10,9 +10,22 @@ public class Agent : MonoBehaviour
         get { return transform.position; }
     }
     AgentBehaviour behaviour;
-
+    [Header("Obecny cel ruchu agenta")]
+    [SerializeField]
     Vector3 currentTarget;
-
+    [Header("Wlasnosci agenta")]
+    [SerializeField]
+    int health;
+    [SerializeField]
+    float velocity;
+    public void SetAgentProperies(int health,float velocity)
+    {
+        this.health = health;
+        this.velocity = velocity;
+    }
+    /// <summary>
+    /// Funkcja tworzy nowego agenta z potrzebnymi komponentami i go zwraca
+    /// </summary>
     public static Agent CreateAgent(AgentManager agentManager,Sprite sprite)
     {
         GameObject agentObject = new GameObject("Agent");
@@ -22,6 +35,7 @@ public class Agent : MonoBehaviour
         SpriteRenderer spriteRenderer = agentObject.AddComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprite;
 
+        agentObject.AddComponent<BoxCollider2D>();
         return agent;
     }
 }
