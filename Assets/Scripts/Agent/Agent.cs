@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Agent : MonoBehaviour,Damageable
+public class Agent : MonoBehaviour,Damageable,Displayable
 {
     [Header("Obecny cel ruchu agenta")]
     [SerializeField]
@@ -77,6 +77,15 @@ public class Agent : MonoBehaviour,Damageable
                 agentManager.DestroyAgent(this);
             }
         }
+    }
+    public int GetHealth()
+    {
+        return health;
+    }
+
+    public string GetName()
+    {
+        return gameObject.name;
     }
     /// <summary>
     /// Funkcja tworzy nowego agenta z potrzebnymi komponentami i go zwraca
