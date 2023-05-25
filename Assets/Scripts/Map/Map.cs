@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Map : MonoBehaviour
 {
     private Tile[,] tiles;
@@ -10,10 +9,24 @@ public class Map : MonoBehaviour
     int xSize;
     [SerializeField]
     int ySize;
-    private void Start()
+    //Lista agentow na mapie
+    //Jest po to by agenci bedacy na mapie "widzieli" innych
+    //w celu np ruchu czy pojawiania sie
+    List<Agent> agentsOnMap = new List<Agent>();
+
+    const float tileOccupiedDistance = 1f;
+
+    public Vector2 Size
+    {
+        get { return new Vector2(xSize, ySize); }
+    }
+
+    private void Awake()
     {
         GenerateMap();
     }
+
+    ///<summary>Zebrane funkcje do utworzenia mapy </summary>
     private void GenerateMap()
     {
         MeshFilter meshFilter = GetComponent<MeshFilter>();
@@ -24,7 +37,7 @@ public class Map : MonoBehaviour
         Camera.main.orthographicSize = (xSize * 0.5f) + 1;
     }
 
-    ///<summary>Funkcja generujaca pola na ksztalt prostokata o wymiarach <c>xSize</c> na <c>ySize</c> </summary>
+    ///<summary>Funkcja generujaca pola na ksztalt prostokata o wymiarach <param>xSize</param> na <param>ySize</param> </summary>
     private void GenerateMapTiles(int xSize, int ySize)
     {
         tiles = new Tile[xSize, ySize];
@@ -60,5 +73,29 @@ public class Map : MonoBehaviour
         mesh.uv = uvs.ToArray();
         mesh.normals = normals.ToArray();
         return mesh;
+    }
+    public void RegisterAgentOnMap(Agent agent)
+    {
+        agentsOnMap.Add(agent);
+    }
+    public void UnregisterAgentFromMap(Agent agent)
+    {
+        agentsOnMap.Remove(agent);
+    }
+    public Vector3 GetWorldPositionFromMapCoordinates(int x,int y)
+    {
+        return tiles[x, y].Position + new Vector3(0.5f,0.5f);
+    }
+    public bool CheckIfTileOccupied(int x,int y)
+    {
+        Vector3 tilePosition = GetWorldPositionFromMapCoordinates(x,y);
+        foreach (Agent agent in agentsOnMap)
+        {
+            if (Vector3.Distance(agent.Position,tilePosition)<=tileOccupiedDistance)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

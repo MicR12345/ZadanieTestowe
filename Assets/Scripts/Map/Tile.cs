@@ -5,6 +5,10 @@ using UnityEngine;
 public class Tile
 {
     Vector3 position;
+    public Vector3 Position
+    {
+        get { return position; }
+    }
     public Tile(Vector3 position)
     {
         this.position = position;
