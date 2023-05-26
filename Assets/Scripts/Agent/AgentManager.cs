@@ -7,15 +7,15 @@ using UnityEngine;
 public class AgentManager : MonoBehaviour
 {
     [Header("Mapa do ktorej przypisani beda agenci")]
-    [SerializeReference]
-    Map map;
+    [SerializeField]
+    Map map = null;
     public Map Map
     {
         get { return map; }
     }
     [Header("Sprite agentow")]
     [SerializeField]
-    Sprite agentSprite;
+    Sprite agentSprite = null;
     [Header("Ilosci agentow")]
     [SerializeField]
     int maxAgentCount = 30;

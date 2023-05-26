@@ -19,7 +19,13 @@ public class RaycastSelection : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             if (hit.collider != null)
             {
+                Displayable previousThing = thing;
                 bool isDisplayable = hit.collider.gameObject.TryGetComponent<Displayable>(out thing);
+                //Ponowne klikniecie odznacza
+                if (previousThing !=null && previousThing.ToString()!="null" && previousThing == thing)
+                {
+                    thing = null;
+                }
             }
             else
             {
