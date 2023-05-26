@@ -7,6 +7,11 @@ public class Agent : MonoBehaviour,Damageable,Displayable
     [Header("Obecny cel ruchu agenta")]
     [SerializeField]
     Vector3 currentTarget;
+    [Header("Rusz na Pole")]
+    [SerializeField]
+    Vector2 setCustomTarget = new Vector2(-1f,-1f);
+    [SerializeField]
+    bool useTargetFromInspector = false;
     [Header("Wlasnosci agenta")]
     [SerializeField]
     int health;
@@ -30,11 +35,34 @@ public class Agent : MonoBehaviour,Damageable,Displayable
 
     private void Update()
     {
-        if (Vector3.Distance(currentTarget, Position) <= 0.1f)
+        if (useTargetFromInspector)
         {
-            SetNewMoveTarget();
+            if (setCustomTarget.x<0 || setCustomTarget.y<0 || setCustomTarget.x>= map.Size.x || setCustomTarget.y >= map.Size.y)
+            {
+                rigidbodyy.velocity = Vector2.zero;
+            }
+            else
+            {
+                Vector3 target = map.GetWorldPositionFromMapCoordinates(Mathf.FloorToInt(setCustomTarget.x), Mathf.FloorToInt(setCustomTarget.y));
+                if (Vector3.Distance(target, Position) <= 0.1f)
+                {
+                    rigidbodyy.velocity = Vector2.zero;
+                    transform.position = target;
+                }
+                else
+                {
+                    rigidbodyy.velocity = Vector3.Normalize(target - Position) * velocity * Time.deltaTime;
+                }
+            }
         }
-        rigidbodyy.velocity = Vector3.Normalize(currentTarget - Position) * velocity * Time.deltaTime;
+        else
+        {
+            if (Vector3.Distance(currentTarget, Position) <= 0.1f)
+            {
+                SetNewMoveTarget();
+            }
+            rigidbodyy.velocity = Vector3.Normalize(currentTarget - Position) * velocity * Time.deltaTime;
+        }
         if (damageTimer > 0)
         {
             damageTimer = damageTimer - Time.deltaTime;
@@ -51,10 +79,11 @@ public class Agent : MonoBehaviour,Damageable,Displayable
         }
     }
 
-    public void SetAgentProperies(int health,float velocity)
+    public void SetAgentProperies(int health,float velocity,bool manual = false)
     {
         this.health = health;
         this.velocity = velocity;
+        useTargetFromInspector = manual;
     }
     public void AssignAgentBehaviour(AgentBehaviour agentBehaviour)
     {

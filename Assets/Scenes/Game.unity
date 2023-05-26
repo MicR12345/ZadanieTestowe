@@ -177,6 +177,7 @@ MonoBehaviour:
   spawnTimer: 0
   agentVelocity: 40
   agentHealth: 3
+  manualControl: 1
 --- !u!1 &52639521
 GameObject:
   m_ObjectHideFlags: 0

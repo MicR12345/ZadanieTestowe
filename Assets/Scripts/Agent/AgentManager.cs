@@ -38,6 +38,9 @@ public class AgentManager : MonoBehaviour
     float agentVelocity = 3;
     [SerializeField]
     int agentHealth = 3;
+    [SerializeField]
+    [Header("Reczne sterowanie agentami")]
+    bool manualControl = false;
 
     List<Agent> agentsUnderManagement = new List<Agent>();
 
@@ -96,7 +99,7 @@ public class AgentManager : MonoBehaviour
         {
             newAgent.transform.parent = transform;
             newAgent.transform.position = Map.GetWorldPositionFromMapCoordinates(x,y);
-            newAgent.SetAgentProperies(agentHealth, agentVelocity);
+            newAgent.SetAgentProperies(agentHealth, agentVelocity,manualControl);
             newAgent.AssignAgentBehaviour(PickAgentBehaviour());
             agentsUnderManagement.Add(newAgent);
             map.RegisterAgentOnMap(newAgent);
