@@ -105,6 +105,14 @@ public class AgentManager : MonoBehaviour
     }
     AgentBehaviour PickAgentBehaviour()
     {
-        return new AgentBehaviours.RandomBehaviour();
+        int coin = Random.Range(0, 2);
+        if (coin==0)
+        {
+            return new AgentBehaviours.RandomBehaviour();
+        }
+        else
+        {
+            return new AgentBehaviours.ChaseRandomOther();
+        }
     }
 }

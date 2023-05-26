@@ -86,6 +86,22 @@ public class Map : MonoBehaviour
     {
         return tiles[x, y].Position + new Vector3(0.5f,0.5f);
     }
+    public Agent GetRandomOtherAgent(Agent requester)
+    {
+        if (agentsOnMap.Count>1)
+        {
+            int random = Random.Range(0, agentsOnMap.Count);
+            int i = 0;
+            while (agentsOnMap[random] == requester && i<30)
+            {
+                random = Random.Range(0, agentsOnMap.Count);
+                i++;
+            }
+            if (i >= 30) return null;
+            return agentsOnMap[random];
+        }
+        return null;
+    }
     public bool CheckIfTileOccupied(int x,int y)
     {
         Vector3 tilePosition = GetWorldPositionFromMapCoordinates(x,y);
